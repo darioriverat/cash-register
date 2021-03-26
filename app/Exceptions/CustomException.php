@@ -4,18 +4,19 @@ namespace App\Exceptions;
 
 use App\Constants\StatusCodes;
 use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class CustomException extends \Exception
 {
     public string $error = '';
 
-    public function render(Request $request)
+    public function render(Request $request): JsonResponse
     {
         return $this->validationErrors();
     }
 
-    public function validationErrors()
+    public function validationErrors(): JsonResponse
     {
         return response()->rest([
             'status' => [

@@ -17,6 +17,10 @@ class Balance extends Model
         'quantity'
     ];
 
+    /**
+     * @param array $entry
+     * @return mixed
+     */
     public static function updateQuantity(array $entry)
     {
         return Balance::where('exchange_type', $entry['exchange_type'])

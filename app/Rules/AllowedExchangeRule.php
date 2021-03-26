@@ -26,7 +26,7 @@ class AllowedExchangeRule implements Rule
         return 'There is not exist an amount with the specified exchange type';
     }
 
-    private function extractType(string $attribute)
+    private function extractType(string $attribute): string
     {
         return request()->input(str_replace('amount', 'exchange_type', $attribute));
     }
