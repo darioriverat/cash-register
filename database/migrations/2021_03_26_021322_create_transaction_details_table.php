@@ -16,13 +16,13 @@ class CreateTransactionDetailsTable extends Migration
     {
         Schema::create('transaction_details', function (Blueprint $table) {
             $table->id();
-            $table->bigIncrements('transaction_id');
+            $table->bigInteger('transaction_id')->unsigned();
             $table->enum('exchange_type', ExchangeType::supported());
             $table->integer('amount');
             $table->integer('quantity');
             $table->timestamps();
 
-            $table->foreign('transaction_id')->references('id')->on('transaction');
+            $table->foreign('transaction_id')->references('id')->on('transactions');
         });
     }
 
