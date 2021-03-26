@@ -43,7 +43,7 @@ class TransactionControllerTest extends TestCase
             ],
         ];
 
-        $response = $this->post(route('initial-balance'), ['cash' => $balance]);
+        $response = $this->post(route('v1.initial-balance'), ['cash' => $balance]);
 
         $response->assertOk();
         $response->assertJson([
@@ -65,7 +65,7 @@ class TransactionControllerTest extends TestCase
      */
     public function itChecksValidationErrors(array $payload, string $error)
     {
-        $response = $this->post(route('initial-balance'), $payload);
+        $response = $this->post(route('v1.initial-balance'), $payload);
 
         $response->assertStatus(400);
         $response->assertJson([

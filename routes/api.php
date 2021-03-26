@@ -19,4 +19,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/initial-balance', [TransactionController::class, 'initialBalance'])->name('initial-balance');
+Route::prefix('v1')->group(function () {
+    Route::post('/initial-balance', [TransactionController::class, 'initialBalance'])->name('v1.initial-balance');
+});
