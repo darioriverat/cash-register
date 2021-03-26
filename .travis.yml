@@ -4,6 +4,9 @@ php:
   - 7.4
   - 8.0
 
+services:
+  - mysql
+
 cache:
   directories:
     - vendor
