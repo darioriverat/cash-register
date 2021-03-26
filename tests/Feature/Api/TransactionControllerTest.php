@@ -4,6 +4,7 @@ namespace Tests\Feature\Api;
 
 use App\Constants\ExchangeType;
 use App\Constants\StatusCodes;
+use App\Models\User;
 use Database\Seeders\BalanceTableSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Feature\Api\Concerns\HasIncomeRequestValues;
@@ -14,10 +15,31 @@ class TransactionControllerTest extends TestCase
     use RefreshDatabase;
     use HasIncomeRequestValues;
 
+    private User $user;
+
     public function setUp(): void
     {
         parent::setUp();
         $this->seed(BalanceTableSeeder::class);
+        $this->user = User::factory()->create();
+    }
+
+    /**
+     * @test
+     */
+    public function anUnauthenticatedUserCannotAccessToCreateInitialBalance()
+    {
+        $balance = [
+            [
+                'exchange_type' => ExchangeType::BILL,
+                'amount' => 20000,
+                'quantity' => 5
+            ],
+        ];
+
+        $response = $this->post(route('v1.initial-balance'), ['cash' => $balance], ['Accept' => 'application/json']);
+
+        $response->assertStatus(401);
     }
 
     /**
@@ -43,7 +65,7 @@ class TransactionControllerTest extends TestCase
             ],
         ];
 
-        $response = $this->post(route('v1.initial-balance'), ['cash' => $balance]);
+        $response = $this->actingAs($this->user)->post(route('v1.initial-balance'), ['cash' => $balance]);
 
         $response->assertOk();
         $response->assertJson([
@@ -65,7 +87,7 @@ class TransactionControllerTest extends TestCase
      */
     public function itChecksValidationErrors(array $payload, string $error)
     {
-        $response = $this->post(route('v1.initial-balance'), $payload);
+        $response = $this->actingAs($this->user)->post(route('v1.initial-balance'), $payload);
 
         $response->assertStatus(400);
         $response->assertJson([
