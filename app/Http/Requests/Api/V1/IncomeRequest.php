@@ -3,7 +3,7 @@
 namespace App\Http\Requests\Api\V1;
 
 use App\Constants\ExchangeType;
-use App\Exceptions\CustomException;
+use App\Exceptions\ValidationApiException;
 use App\Rules\AllowedExchangeRule;
 use App\Rules\StateMachineRule;
 use Illuminate\Contracts\Validation\Validator;
@@ -69,10 +69,10 @@ class IncomeRequest extends FormRequest
 
     /**
      * @param Validator $validator
-     * @throws CustomException
+     * @throws ValidationApiException
      */
     protected function failedValidation(Validator $validator)
     {
-        throw CustomException::fromValidator($validator);
+        throw ValidationApiException::fromValidator($validator);
     }
 }

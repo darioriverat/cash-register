@@ -7,7 +7,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class CustomException extends \Exception
+class ValidationApiException extends \Exception
 {
     public string $error = '';
 
