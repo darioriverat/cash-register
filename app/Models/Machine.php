@@ -19,14 +19,4 @@ class Machine extends Model
     {
         self::firstWhere('name', $name)->update(['state' => MachineStates::OPEN]);
     }
-
-    /**
-     * Get the route key for the model.
-     *
-     * @return string
-     */
-    public function getRouteKeyName()
-    {
-        return 'name';
-    }
 }
