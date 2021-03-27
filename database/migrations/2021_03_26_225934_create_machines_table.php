@@ -1,11 +1,11 @@
 <?php
 
-use App\Constants\ExchangeType;
+use App\Constants\MachineStates;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBalanceTable extends Migration
+class CreateMachinesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,12 +14,10 @@ class CreateBalanceTable extends Migration
      */
     public function up()
     {
-        Schema::create('balance', function (Blueprint $table) {
+        Schema::create('machines', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('machine_id')->unsigned();
-            $table->enum('exchange_type', ExchangeType::supported());
-            $table->integer('amount');
-            $table->integer('quantity');
+            $table->string('name', 20)->unique();
+            $table->enum('state', MachineStates::supported());
             $table->timestamps();
         });
     }
@@ -31,6 +29,6 @@ class CreateBalanceTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('balance');
+        Schema::dropIfExists('machines');
     }
 }

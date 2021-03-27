@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\V1\TransactionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -16,4 +17,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+Route::middleware('auth:sanctum')->prefix('v1')->group(function () {
+    Route::post('/initial-balance', [TransactionController::class, 'initialBalance'])->name('v1.initial-balance');
 });
