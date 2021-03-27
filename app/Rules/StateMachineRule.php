@@ -2,12 +2,18 @@
 
 namespace App\Rules;
 
-use App\Constants\MachineStates;
 use App\Models\Machine;
 use Illuminate\Contracts\Validation\Rule;
 
 class StateMachineRule implements Rule
 {
+    private string $state;
+
+    public function __construct(string $state)
+    {
+        $this->state = $state;
+    }
+
     /**
      * Determine if the validation rule passes.
      *
@@ -18,7 +24,7 @@ class StateMachineRule implements Rule
     public function passes($attribute, $value): bool
     {
         if ($machine = Machine::firstWhere('name', $value)) {
-            return $machine->state === MachineStates::CLOSED;
+            return $machine->state === $this->state;
         }
 
         return false;
