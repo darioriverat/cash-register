@@ -5,6 +5,7 @@ namespace App\Http\Requests\Api\V1;
 use App\Constants\ExchangeType;
 use App\Exceptions\CustomException;
 use App\Rules\AllowedExchangeRule;
+use App\Rules\StateMachineRule;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -36,6 +37,12 @@ class IncomeRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'machine' => [
+                'bail',
+                'required',
+                'exists:machines,name',
+                new StateMachineRule()
+            ],
             'cash' => [
                 'required',
                 'array'

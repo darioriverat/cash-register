@@ -12,6 +12,7 @@ class Balance extends Model
     protected $table = 'balance';
 
     protected $fillable = [
+        'machine_id',
         'exchange_type',
         'amount',
         'quantity'

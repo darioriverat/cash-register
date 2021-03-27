@@ -9,8 +9,31 @@ trait HasIncomeRequestValues
     public function incomeValues(): array
     {
         return [
+            'Missing machine' => [
+                [
+                    'cash' => [
+                        'exchange_type' => ExchangeType::BILL,
+                        'amount' => 10000,
+                        'quantity' => 5
+                    ]
+                ],
+                'The machine field is required.'
+            ],
+            'Machine not in database' => [
+                [
+                    'machine' => 'POS-89965',
+                    'cash' => [
+                        'exchange_type' => ExchangeType::BILL,
+                        'amount' => 10000,
+                        'quantity' => 5
+                    ]
+                ],
+                'The selected machine is invalid.'
+            ],
             'Missing cash' => [
-                [],
+                [
+                    'machine' => 'POS-45'
+                ],
                 'The cash field is required.'
             ],
             'Missing exchange type' => [
@@ -76,6 +99,7 @@ trait HasIncomeRequestValues
     private function cash(array $payload): array
     {
         return [
+            'machine' => 'POS-45',
             'cash' => $payload
         ];
     }

@@ -62,7 +62,7 @@ php artisan key:generate
 Finally, create the database schema and basic data executing the following command.
 
 ```bash
-php artisan migrate --seed
+php artisan migrate
 ```
 
 ## 1.3.2 Creating sample user and token data
@@ -78,3 +78,13 @@ Then you can use the following token to log in on the api.
 ```text
 token: 1|klvN2VKKhJi06oigREYDMOtJAyKbyZAZpbaQxvvM
 ```
+
+## 1.4 Creating Cashier machines
+
+To create a cashier machine you can use the following command
+
+```bash
+php artisan make:machine machineName
+```
+
+The above command creates the machine and its balance.
