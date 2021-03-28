@@ -117,6 +117,9 @@ class InitialBalanceTest extends TestCase
             'type' => TransactionType::BASE
         ]);
         foreach ($balance as $entry) {
+            $this->assertDatabaseHas('transaction_details', $entry);
+        }
+        foreach ($balance as $entry) {
             $this->assertDatabaseHas('balance', $entry);
         }
     }
