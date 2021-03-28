@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Api;
+namespace Tests\Feature\Api\Transactions;
 
 use App\Constants\ExchangeType;
 use App\Constants\MachineStates;
@@ -8,10 +8,10 @@ use App\Constants\StatusCodes;
 use App\Models\Machine;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\Feature\Api\Concerns\HasIncomeRequestValues;
+use Tests\Feature\Api\Transactions\Concerns\HasIncomeRequestValues;
 use Tests\TestCase;
 
-class TransactionControllerTest extends TestCase
+class InitialBalanceTest extends TestCase
 {
     use RefreshDatabase;
     use HasIncomeRequestValues;
