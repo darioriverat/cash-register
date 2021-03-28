@@ -67,7 +67,7 @@ class PaymentTest extends TestCase
             ]
         ];
 
-        $response = $this->actingAs($this->user)->post(route('v1.payment'), $payload, ['Accept' => 'application/json']);
+        $response = $this->actingAs($this->user)->post(route('v1.payment'), $payload);
 
         $response->assertCreated();
         $response->assertJson([
@@ -115,7 +115,7 @@ class PaymentTest extends TestCase
             ]
         ];
 
-        $response = $this->actingAs($this->user)->post(route('v1.payment'), $payload, ['Accept' => 'application/json']);
+        $response = $this->actingAs($this->user)->post(route('v1.payment'), $payload);
 
         $response->assertStatus(422);
         $response->assertJson([
@@ -146,7 +146,7 @@ class PaymentTest extends TestCase
             ]
         ];
 
-        $response = $this->actingAs($this->user)->post(route('v1.payment'), $payload, ['Accept' => 'application/json']);
+        $response = $this->actingAs($this->user)->post(route('v1.payment'), $payload);
 
         $response->assertStatus(422);
         $response->assertJson([
