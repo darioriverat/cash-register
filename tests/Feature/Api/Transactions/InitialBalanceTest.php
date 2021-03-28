@@ -114,7 +114,8 @@ class InitialBalanceTest extends TestCase
             'state' => MachineStates::OPEN
         ]);
         $this->assertDatabaseHas('transactions', [
-            'type' => TransactionType::BASE
+            'type' => TransactionType::BASE,
+            'machine_id' => Machine::select('id')->firstWhere('name', 'POS-45')->id
         ]);
         foreach ($balance as $entry) {
             $this->assertDatabaseHas('transaction_details', $entry);
