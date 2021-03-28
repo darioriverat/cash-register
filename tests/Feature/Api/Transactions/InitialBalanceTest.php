@@ -5,6 +5,7 @@ namespace Tests\Feature\Api\Transactions;
 use App\Constants\ExchangeType;
 use App\Constants\MachineStates;
 use App\Constants\StatusCodes;
+use App\Constants\TransactionType;
 use App\Models\Machine;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -111,6 +112,9 @@ class InitialBalanceTest extends TestCase
         $this->assertDatabaseHas('machines', [
             'name' => 'POS-45',
             'state' => MachineStates::OPEN
+        ]);
+        $this->assertDatabaseHas('transactions', [
+            'type' => TransactionType::BASE
         ]);
         foreach ($balance as $entry) {
             $this->assertDatabaseHas('balance', $entry);

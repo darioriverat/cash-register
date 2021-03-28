@@ -19,7 +19,7 @@ class TransactionController extends Controller
     {
         $cash = $request->input('cash');
 
-        Transaction::createTransaction(TransactionType::INCOME, $cash);
+        Transaction::createTransaction(TransactionType::BASE, $cash);
 
         foreach ($cash as $entry) {
             Balance::updateQuantity($entry);
