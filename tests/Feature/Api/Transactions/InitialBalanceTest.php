@@ -68,7 +68,7 @@ class InitialBalanceTest extends TestCase
             'status' => [
                 'code' => StatusCodes::VALIDATION_ERROR,
                 'description' => 'Client validation errors',
-                'error' => 'This machine is not able for opening.'
+                'error' => 'Impossible to perform this operation when machine state is not closed'
             ]
         ]);
     }

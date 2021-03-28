@@ -21,4 +21,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::middleware('auth:sanctum')->prefix('v1')->group(function () {
     Route::post('/initial-balance', [TransactionController::class, 'initialBalance'])->name('v1.initial-balance');
+    Route::post('/payment', [TransactionController::class, 'payment'])->name('v1.payment');
 });

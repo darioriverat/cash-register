@@ -37,6 +37,6 @@ class StateMachineRule implements Rule
      */
     public function message(): string
     {
-        return 'This machine is not able for opening.';
+        return 'Impossible to perform this operation when machine state is not ' . $this->state;
     }
 }
