@@ -11,10 +11,11 @@ use App\Http\Requests\Api\V1\PaymentRequest;
 use App\Models\Balance;
 use App\Models\Machine;
 use App\Models\Transaction;
+use Illuminate\Http\JsonResponse;
 
 class TransactionController extends Controller
 {
-    public function initialBalance(InitialBalanceRequest $request)
+    public function initialBalance(InitialBalanceRequest $request): JsonResponse
     {
         $cash = $request->input('cash');
 
@@ -32,7 +33,7 @@ class TransactionController extends Controller
         ]]);
     }
 
-    public function payment(PaymentRequest $request)
+    public function payment(PaymentRequest $request): JsonResponse
     {
         $cash = $request->input('cash');
         $totalPayment = $request->input('payment')['amount'];
@@ -99,5 +100,17 @@ class TransactionController extends Controller
             ],
             'change' => $changeCash
         ], 201);
+    }
+
+    public function balance(Machine $machine): JsonResponse
+    {
+        $balance = $machine->getCleanBalance()->toArray();
+
+        return response()->rest([
+            'status' => [
+                'code' => StatusCodes::SUCCESSFUL,
+            ],
+            'cash' => $balance
+        ], 200);
     }
 }

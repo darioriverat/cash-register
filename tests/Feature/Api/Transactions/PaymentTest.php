@@ -3,16 +3,15 @@
 namespace Tests\Feature\Api\Transactions;
 
 use App\Constants\ExchangeType;
-use App\Constants\MachineStates;
-use App\Models\Balance;
-use App\Models\Machine;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\Feature\Api\Transactions\Concerns\HasInitialBalance;
 use Tests\TestCase;
 
 class PaymentTest extends TestCase
 {
     use RefreshDatabase;
+    use HasInitialBalance;
 
     private User $user;
 
@@ -154,26 +153,6 @@ class PaymentTest extends TestCase
                 'code' => 1200,
                 'description' => 'impossible to give change for 4500'
             ]
-        ]);
-    }
-
-    private function loadBalance(): void
-    {
-        $machine = Machine::select('id')->firstWhere('name', 'POS-45');
-        $machine->state = MachineStates::OPEN;
-        $machine->save();
-        $machineId = $machine->id;
-
-        Balance::sumQuantity($machineId, [
-            'exchange_type' => ExchangeType::BILL,
-            'amount' => 20000,
-            'quantity' => 4
-        ]);
-
-        Balance::sumQuantity($machineId, [
-            'exchange_type' => ExchangeType::BILL,
-            'amount' => 5000,
-            'quantity' => 5
         ]);
     }
 }

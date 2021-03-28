@@ -26,6 +26,7 @@ class Machine extends Model
     {
         return $this
             ->balance()
+            ->select('exchange_type', 'amount', 'quantity')
             ->where('quantity', '>', 0)
             ->orderBy('amount', 'DESC')
             ->get();
@@ -34,5 +35,15 @@ class Machine extends Model
     public static function openByName(string $name)
     {
         self::firstWhere('name', $name)->update(['state' => MachineStates::OPEN]);
+    }
+
+    /**
+     * Get the route key for the model.
+     *
+     * @return string
+     */
+    public function getRouteKeyName(): string
+    {
+        return 'name';
     }
 }
