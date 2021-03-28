@@ -9,7 +9,13 @@ use Illuminate\Http\Request;
 
 class ValidationApiException extends \Exception
 {
-    public string $error = '';
+    protected int $statusCode = 400;
+    protected string $error = '';
+
+    public function setStatusCode(int $statusCode)
+    {
+        $this->statusCode = $statusCode;
+    }
 
     public function render(Request $request): JsonResponse
     {
@@ -24,7 +30,7 @@ class ValidationApiException extends \Exception
                 'description' => 'Client validation errors',
                 'error' => $this->error
             ]
-        ], 400);
+        ], $this->statusCode);
     }
 
     public static function fromValidator(Validator $validator): self

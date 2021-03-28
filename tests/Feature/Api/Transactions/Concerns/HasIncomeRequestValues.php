@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Api\Concerns;
+namespace Tests\Feature\Api\Transactions\Concerns;
 
 use App\Constants\ExchangeType;
 

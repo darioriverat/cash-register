@@ -1,16 +1,15 @@
 <?php
 
-namespace App\Http\Requests\Api\V1;
+namespace App\Http\Requests\Api;
 
 use App\Constants\ExchangeType;
 use App\Exceptions\ValidationApiException;
 use App\Rules\AllowedExchangeRule;
-use App\Rules\StateMachineRule;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class IncomeRequest extends FormRequest
+class CashRequest extends FormRequest
 {
     /**
      * Indicates if the validator should stop on the first rule failure.
@@ -37,12 +36,6 @@ class IncomeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'machine' => [
-                'bail',
-                'required',
-                'exists:machines,name',
-                new StateMachineRule()
-            ],
             'cash' => [
                 'required',
                 'array'
