@@ -26,7 +26,7 @@ class PaymentTest extends TestCase
     /**
      * @test
      */
-    public function anUnauthenticatedUserCannotAccessToCreateInitialBalance()
+    public function anUnauthenticatedUserCannotAccessToCreatePayments()
     {
         $payload = [
             'machine' => 'POS-45',
