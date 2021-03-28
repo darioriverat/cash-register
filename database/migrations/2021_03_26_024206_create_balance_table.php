@@ -21,6 +21,8 @@ class CreateBalanceTable extends Migration
             $table->integer('amount');
             $table->integer('quantity');
             $table->timestamps();
+
+            $table->foreign('machine_id')->references('id')->on('machines');
         });
     }
 

@@ -8,6 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
 
+/**
+ * @property int id
+ * @property int machine_id
+ */
 class Machine extends Model
 {
     use HasFactory;
@@ -32,9 +36,12 @@ class Machine extends Model
             ->get();
     }
 
-    public static function openByName(string $name)
+    public function open(): self
     {
-        self::firstWhere('name', $name)->update(['state' => MachineStates::OPEN]);
+        $this->attributes['state'] = MachineStates::OPEN;
+        $this->save();
+
+        return $this;
     }
 
     /**

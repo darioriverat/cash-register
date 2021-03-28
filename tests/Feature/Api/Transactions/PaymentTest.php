@@ -3,6 +3,8 @@
 namespace Tests\Feature\Api\Transactions;
 
 use App\Constants\ExchangeType;
+use App\Constants\TransactionType;
+use App\Models\Machine;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Feature\Api\Transactions\Concerns\HasInitialBalance;
@@ -82,6 +84,13 @@ class PaymentTest extends TestCase
                 ]
             ]
         ]);
+        $this->assertDatabaseHas('transactions', [
+            'type' => TransactionType::INCOME,
+            'machine_id' => Machine::select('id')->firstWhere('name', 'POS-45')->id
+        ]);
+        foreach ($payload['cash'] as $entry) {
+            $this->assertDatabaseHas('transaction_details', $entry);
+        }
         $this->assertDatabaseHas('balance', [
             'exchange_type' => ExchangeType::BILL,
             'amount' => 20000,

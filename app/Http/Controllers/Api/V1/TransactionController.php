@@ -17,15 +17,16 @@ class TransactionController extends Controller
 {
     public function initialBalance(InitialBalanceRequest $request): JsonResponse
     {
+        $machine = Machine::select('id')->firstWhere('name', $request->input('machine'));
         $cash = $request->input('cash');
 
-        Transaction::createTransaction(TransactionType::BASE, $cash);
+        Transaction::createTransaction($machine->id, TransactionType::BASE, $cash);
 
         foreach ($cash as $entry) {
             Balance::updateQuantity($entry);
         }
 
-        Machine::openByName($request->input('machine'));
+        $machine->open();
 
         return response()->rest(['status' => [
             'code' => StatusCodes::SUCCESSFUL,
@@ -91,7 +92,7 @@ class TransactionController extends Controller
             Balance::sumQuantity($machine->id, $entry);
         }
 
-        Transaction::createTransaction(TransactionType::INCOME, $cash);
+        Transaction::createTransaction($machine->id, TransactionType::INCOME, $cash);
 
         return response()->rest([
             'status' => [

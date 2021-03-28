@@ -16,8 +16,11 @@ class CreateTransactionsTable extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('machine_id')->unsigned();
             $table->enum('type', TransactionType::supported());
             $table->timestamps();
+
+            $table->foreign('machine_id')->references('id')->on('machines');
         });
     }
 

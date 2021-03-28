@@ -12,7 +12,8 @@ class Transaction extends Model
     use HasFactory;
 
     protected $fillable = [
-        'type'
+        'type',
+        'machine_id'
     ];
 
     public function details(): HasMany
@@ -20,9 +21,9 @@ class Transaction extends Model
         return $this->hasMany(TransactionDetails::class);
     }
 
-    public static function createTransaction(string $type, array $cash): void
+    public static function createTransaction(int $machineId, string $type, array $cash): void
     {
-        $transaction = Transaction::create(['type' => $type]);
+        $transaction = Transaction::create(['type' => $type, 'machine_id' => $machineId]);
         $transaction->details()->createMany($cash);
     }
 }
