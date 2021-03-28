@@ -101,4 +101,16 @@ class TransactionController extends Controller
             'change' => $changeCash
         ], 201);
     }
+
+    public function balance(Machine $machine): JsonResponse
+    {
+        $balance = $machine->getCleanBalance()->toArray();
+
+        return response()->rest([
+            'status' => [
+                'code' => StatusCodes::SUCCESSFUL,
+            ],
+            'cash' => $balance
+        ], 200);
+    }
 }
