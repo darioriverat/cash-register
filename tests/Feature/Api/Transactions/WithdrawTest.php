@@ -39,7 +39,7 @@ class WithdrawTest extends TestCase
     /**
      * @test
      */
-    public function itChecksWhenMachineIsAbleForOpening()
+    public function itChecksWhenMachineIsAbleForClosing()
     {
         $this->loadBalance();
         $machine = Machine::firstWhere('name', 'POS-45');
