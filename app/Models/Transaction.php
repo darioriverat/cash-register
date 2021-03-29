@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\DB;
 
 class Transaction extends Model
 {
@@ -57,5 +58,27 @@ class Transaction extends Model
             ->from($from)
             ->to($to)
             ->get();
+    }
+
+    public static function sumByType(int $machineId, string $to)
+    {
+        $sql = "select total as base, (
+                    select nvl(sum(total), 0) from transactions as inc
+                    where inc.machine_id = tx.machine_id and type = 'income'
+                    and created_at <= '$to'
+                ) as income, (
+                    select nvl(sum(total), 0) from transactions as inc
+                    where inc.machine_id = tx.machine_id and type = 'outcome'
+                    and created_at <= '$to'
+                ) as outcome, (
+                    select nvl(sum(total), 0) from transactions as inc
+                    where inc.machine_id = tx.machine_id and type = 'withdraw'
+                    and created_at <= '$to'
+                ) as withdraw
+                from transactions tx
+                where machine_id = $machineId and type = 'base'
+                and created_at <= '$to';";
+
+        return DB::select($sql);
     }
 }

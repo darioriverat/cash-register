@@ -29,4 +29,8 @@ Route::middleware('auth:sanctum')->prefix('v1')->group(function () {
         '/transaction-details/{transaction}',
         [TransactionController::class, 'transactionDetails']
     )->name('v1.transaction-details');
+    Route::get(
+        '/historical-balance/{machine}',
+        [TransactionController::class, 'historicalBalance']
+    )->name('v1.historical-balance');
 });

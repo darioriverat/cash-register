@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Helpers\CashHelper;
 use App\Http\Requests\Api\V1\InitialBalanceRequest;
 use App\Http\Requests\Api\V1\PaymentRequest;
+use App\Http\Requests\Api\V1\QueryHistoricalBalanceRequest;
 use App\Http\Requests\Api\V1\WithdrawRequest;
 use App\Http\Requests\Api\V1\QueryTransactionsRequest;
 use App\Models\Balance;
@@ -176,6 +177,25 @@ class TransactionController extends Controller
                 'code' => StatusCodes::SUCCESSFUL,
             ],
             'cash' => $entries->toArray()
+        ], 200);
+    }
+
+    public function historicalBalance(QueryHistoricalBalanceRequest $request, Machine $machine): JsonResponse
+    {
+        $resume = Transaction::sumByType($machine->id, $request->input('to', now()->toISOString()));
+        $resume = (array) array_shift($resume);
+        array_walk($resume, function (&$item) {
+            $item = (int) $item;
+        });
+
+        return response()->rest([
+            'status' => [
+                'code' => StatusCodes::SUCCESSFUL,
+            ],
+            'resume' => [
+                'transactions' => $resume,
+                'balance' => $resume['base'] + $resume['income'] - $resume['outcome'] - $resume['withdraw']
+            ]
         ], 200);
     }
 }
