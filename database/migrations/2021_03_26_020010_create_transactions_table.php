@@ -18,6 +18,7 @@ class CreateTransactionsTable extends Migration
             $table->id();
             $table->bigInteger('machine_id')->unsigned();
             $table->enum('type', TransactionType::supported());
+            $table->integer('total');
             $table->timestamps();
 
             $table->foreign('machine_id')->references('id')->on('machines');

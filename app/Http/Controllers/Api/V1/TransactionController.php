@@ -96,6 +96,10 @@ class TransactionController extends Controller
 
         Transaction::createTransaction($machine->id, TransactionType::INCOME, $cash);
 
+        if ($changeCash) {
+            Transaction::createTransaction($machine->id, TransactionType::OUTCOME, $changeCash);
+        }
+
         return response()->rest([
             'status' => [
                 'code' => StatusCodes::SUCCESSFUL,
