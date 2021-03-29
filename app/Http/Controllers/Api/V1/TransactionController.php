@@ -137,7 +137,7 @@ class TransactionController extends Controller
         }
 
         $balance = $machine->getCleanBalance();
-        Transaction::createTransaction($machine->id, TransactionType::OUTCOME, $balance->toArray());
+        Transaction::createTransaction($machine->id, TransactionType::WITHDRAW, $balance->toArray());
         $machine->withdraw();
 
         return response()->rest([
