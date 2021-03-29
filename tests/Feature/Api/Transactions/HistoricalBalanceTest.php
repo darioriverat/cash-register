@@ -111,7 +111,7 @@ class HistoricalBalanceTest extends TestCase
 
         $response = $this
             ->actingAs($this->user)
-            ->get(route('v1.historical-balance', ['POS-45', 'to' => now()->toIso8601String()]));
+            ->get(route('v1.historical-balance', ['POS-45', 'to' => now()->toISOString()]));
 
         $response->assertOk();
         $response->assertJson([
@@ -126,6 +126,32 @@ class HistoricalBalanceTest extends TestCase
                     'withdraw' => 0
                 ],
                 'balance' => 255000
+            ]
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function itCanQueryHistoricalBalanceWhenMachineDoesNotHaveTransactions()
+    {
+        $response = $this
+            ->actingAs($this->user)
+            ->get(route('v1.historical-balance', 'POS-45'));
+
+        $response->assertOk();
+        $response->assertJson([
+            'status' => [
+                'code' => StatusCodes::SUCCESSFUL
+            ],
+            'resume' => [
+                'transactions' => [
+                    'base' => 0,
+                    'income' => 0,
+                    'outcome' => 0,
+                    'withdraw' => 0
+                ],
+                'balance' => 0
             ]
         ]);
     }

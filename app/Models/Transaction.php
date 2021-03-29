@@ -63,15 +63,15 @@ class Transaction extends Model
     public static function sumByType(int $machineId, string $to)
     {
         $sql = "select total as base, (
-                    select nvl(sum(total), 0) from transactions as inc
+                    select sum(total) from transactions as inc
                     where inc.machine_id = tx.machine_id and type = 'income'
                     and created_at <= '$to'
                 ) as income, (
-                    select nvl(sum(total), 0) from transactions as inc
+                    select sum(total) from transactions as inc
                     where inc.machine_id = tx.machine_id and type = 'outcome'
                     and created_at <= '$to'
                 ) as outcome, (
-                    select nvl(sum(total), 0) from transactions as inc
+                    select sum(total) from transactions as inc
                     where inc.machine_id = tx.machine_id and type = 'withdraw'
                     and created_at <= '$to'
                 ) as withdraw

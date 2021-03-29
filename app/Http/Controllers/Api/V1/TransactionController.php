@@ -183,10 +183,20 @@ class TransactionController extends Controller
     public function historicalBalance(QueryHistoricalBalanceRequest $request, Machine $machine): JsonResponse
     {
         $resume = Transaction::sumByType($machine->id, $request->input('to', now()->toISOString()));
-        $resume = (array) array_shift($resume);
-        array_walk($resume, function (&$item) {
-            $item = (int) $item;
-        });
+
+        if (!$resume) {
+            $resume = [
+                'base' => 0,
+                'income' => 0,
+                'outcome' => 0,
+                'withdraw' => 0
+            ];
+        } else {
+            $resume = (array) array_shift($resume);
+            array_walk($resume, function (&$item) {
+                $item = (int) $item;
+            });
+        }
 
         return response()->rest([
             'status' => [
