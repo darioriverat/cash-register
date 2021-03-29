@@ -11,4 +11,5 @@ class TransactionType
     public const BASE = 'base';
     public const INCOME = 'income';
     public const OUTCOME = 'outcome';
+    public const WITHDRAW = 'withdraw';
 }

@@ -15,7 +15,8 @@ class HasEnumValuesTest extends TestCase
         $this->assertSame([
             'BASE' => 'base',
             'INCOME' => 'income',
-            'OUTCOME' => 'outcome'
+            'OUTCOME' => 'outcome',
+            'WITHDRAW' => 'withdraw'
         ], TransactionType::supported());
     }
 }
