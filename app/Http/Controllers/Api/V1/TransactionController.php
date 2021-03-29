@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use App\Constants\MachineStates;
 use App\Constants\StatusCodes;
 use App\Constants\TransactionType;
 use App\Http\Controllers\Controller;
@@ -10,10 +9,10 @@ use App\Http\Requests\Api\Helpers\CashHelper;
 use App\Http\Requests\Api\V1\InitialBalanceRequest;
 use App\Http\Requests\Api\V1\PaymentRequest;
 use App\Http\Requests\Api\V1\WithdrawRequest;
+use App\Http\Requests\Api\V1\QueryTransactionsRequest;
 use App\Models\Balance;
 use App\Models\Machine;
 use App\Models\Transaction;
-use App\Rules\StateMachineRule;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Validator;
 
@@ -98,6 +97,10 @@ class TransactionController extends Controller
 
         Transaction::createTransaction($machine->id, TransactionType::INCOME, $cash);
 
+        if ($changeCash) {
+            Transaction::createTransaction($machine->id, TransactionType::OUTCOME, $changeCash);
+        }
+
         return response()->rest([
             'status' => [
                 'code' => StatusCodes::SUCCESSFUL,
@@ -142,6 +145,22 @@ class TransactionController extends Controller
                 'code' => StatusCodes::SUCCESSFUL,
                 'description' => 'successful withdraw'
             ]
+        ], 200);
+    }
+
+    public function transactions(QueryTransactionsRequest $request, Machine $machine): JsonResponse
+    {
+        $transactions = Transaction::searchTransactions(
+            $machine->id,
+            $request->input('from', now()->subDay()),
+            $request->input('to', now())
+        );
+
+        return response()->rest([
+            'status' => [
+                'code' => StatusCodes::SUCCESSFUL,
+            ],
+            'transactions' => $transactions->toArray()
         ], 200);
     }
 }

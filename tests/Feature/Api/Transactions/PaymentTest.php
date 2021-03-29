@@ -53,6 +53,7 @@ class PaymentTest extends TestCase
      */
     public function itCanReceivePayments()
     {
+        $machineId = Machine::select('id')->firstWhere('name', 'POS-45')->id;
         $this->loadBalance();
         $payload = [
             'machine' => 'POS-45',
@@ -86,7 +87,13 @@ class PaymentTest extends TestCase
         ]);
         $this->assertDatabaseHas('transactions', [
             'type' => TransactionType::INCOME,
-            'machine_id' => Machine::select('id')->firstWhere('name', 'POS-45')->id
+            'machine_id' => $machineId,
+            'total' => 40000
+        ]);
+        $this->assertDatabaseHas('transactions', [
+            'type' => TransactionType::OUTCOME,
+            'machine_id' => $machineId,
+            'total' => 15000
         ]);
         foreach ($payload['cash'] as $entry) {
             $this->assertDatabaseHas('transaction_details', $entry);
