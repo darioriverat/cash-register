@@ -163,4 +163,19 @@ class TransactionController extends Controller
             'transactions' => $transactions->toArray()
         ], 200);
     }
+
+    public function transactionDetails(Transaction $transaction)
+    {
+        $entries = $transaction
+            ->details()
+            ->select('exchange_type', 'amount', 'quantity')
+            ->get();
+
+        return response()->rest([
+            'status' => [
+                'code' => StatusCodes::SUCCESSFUL,
+            ],
+            'cash' => $entries->toArray()
+        ], 200);
+    }
 }

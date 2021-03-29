@@ -25,4 +25,8 @@ Route::middleware('auth:sanctum')->prefix('v1')->group(function () {
     Route::get('/balance/{machine}', [TransactionController::class, 'balance'])->name('v1.balance');
     Route::post('/withdraw/{machine}', [TransactionController::class, 'withdraw'])->name('v1.withdraw');
     Route::get('/transactions/{machine}', [TransactionController::class, 'transactions'])->name('v1.transactions');
+    Route::get(
+        '/transaction-details/{transaction}',
+        [TransactionController::class, 'transactionDetails']
+    )->name('v1.transaction-details');
 });
