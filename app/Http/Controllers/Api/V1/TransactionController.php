@@ -2,16 +2,20 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Constants\MachineStates;
 use App\Constants\StatusCodes;
 use App\Constants\TransactionType;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Helpers\CashHelper;
 use App\Http\Requests\Api\V1\InitialBalanceRequest;
 use App\Http\Requests\Api\V1\PaymentRequest;
+use App\Http\Requests\Api\V1\WithdrawRequest;
 use App\Models\Balance;
 use App\Models\Machine;
 use App\Models\Transaction;
+use App\Rules\StateMachineRule;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Validator;
 
 class TransactionController extends Controller
 {
@@ -112,6 +116,32 @@ class TransactionController extends Controller
                 'code' => StatusCodes::SUCCESSFUL,
             ],
             'cash' => $balance
+        ], 200);
+    }
+
+    public function withdraw(Machine $machine): JsonResponse
+    {
+        $validator = Validator::make(['machine' => $machine->name], WithdrawRequest::rules());
+
+        if ($validator->fails()) {
+            return response()->rest([
+                'status' => [
+                    'code' => StatusCodes::VALIDATION_ERROR,
+                    'description' => 'Client validation errors',
+                    'error' => 'Impossible to perform this operation when machine state is not open'
+                ],
+            ], 400);
+        }
+
+        $balance = $machine->getCleanBalance();
+        Transaction::createTransaction($machine->id, TransactionType::OUTCOME, $balance->toArray());
+        $machine->withdraw();
+
+        return response()->rest([
+            'status' => [
+                'code' => StatusCodes::SUCCESSFUL,
+                'description' => 'successful withdraw'
+            ]
         ], 200);
     }
 }
