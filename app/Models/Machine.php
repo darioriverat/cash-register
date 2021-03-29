@@ -39,6 +39,8 @@ class Machine extends Model
     public function withdraw(): void
     {
         $this->balance()->update(['quantity' => 0]);
+        $this->attributes['state'] = MachineStates::CLOSED;
+        $this->save();
     }
 
     public function open(): self

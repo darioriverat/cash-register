@@ -77,6 +77,10 @@ class WithdrawTest extends TestCase
                 'description' => 'successful withdraw'
             ]
         ]);
+        $this->assertDatabaseHas('machines', [
+            'id' => $machineId,
+            'state' => MachineStates::CLOSED
+        ]);
         $this->assertDatabaseHas('transactions', [
             'type' => TransactionType::OUTCOME,
             'machine_id' => $machineId
