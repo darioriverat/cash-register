@@ -9,6 +9,7 @@ use App\Http\Requests\Api\Helpers\CashHelper;
 use App\Http\Requests\Api\V1\InitialBalanceRequest;
 use App\Http\Requests\Api\V1\PaymentRequest;
 use App\Http\Requests\Api\V1\WithdrawRequest;
+use App\Http\Requests\Api\V1\QueryTransactionsRequest;
 use App\Models\Balance;
 use App\Models\Machine;
 use App\Models\Transaction;
@@ -144,6 +145,22 @@ class TransactionController extends Controller
                 'code' => StatusCodes::SUCCESSFUL,
                 'description' => 'successful withdraw'
             ]
+        ], 200);
+    }
+
+    public function transactions(QueryTransactionsRequest $request, Machine $machine): JsonResponse
+    {
+        $transactions = Transaction::searchTransactions(
+            $machine->id,
+            $request->input('from', now()->subDay()),
+            $request->input('to', now())
+        );
+
+        return response()->rest([
+            'status' => [
+                'code' => StatusCodes::SUCCESSFUL,
+            ],
+            'transactions' => $transactions->toArray()
         ], 200);
     }
 }

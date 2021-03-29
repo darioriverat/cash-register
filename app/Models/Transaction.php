@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Http\Requests\Api\Helpers\CashHelper;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -24,6 +25,20 @@ class Transaction extends Model
         return $this->hasMany(TransactionDetails::class);
     }
 
+    public function scopeFrom(Builder $query, string $term = null, $boolean = 'and'): Builder
+    {
+        $date = Carbon::parse($term);
+
+        return $query->whereDate('created_at', '>=', $date->toDateString(), $boolean);
+    }
+
+    public function scopeTo(Builder $query, string $term = null, $boolean = 'and'): Builder
+    {
+        $date = Carbon::parse($term);
+
+        return $query->whereDate('created_at', '<=', $date->toDateString(), $boolean);
+    }
+
     public static function createTransaction(int $machineId, string $type, array $cash): void
     {
         $total = CashHelper::sum($cash);
@@ -35,10 +50,12 @@ class Transaction extends Model
         $transaction->details()->createMany($cash);
     }
 
-    public function scopeCreatedAt(Builder $query, string $term = null, $boolean = 'and'): Builder
+    public static function searchTransactions(int $machineId, string $from, string $to): Collection
     {
-        $date = Carbon::parse($term);
-
-        return $query->whereDate('created_at', '<=', $date->toDateString(), $boolean);
+        return self::select('id', 'type', 'total', 'created_at')
+            ->where('machine_id', $machineId)
+            ->from($from)
+            ->to($to)
+            ->get();
     }
 }
