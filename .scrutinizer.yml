@@ -5,7 +5,7 @@ build:
   nodes:
     coverage:
       services:
-        maria-db2:
+        maria-db:
           image: docker.io/library/mariadb:10.5.9
           env:
             MYSQL_ALLOW_EMPTY_PASSWORD: yes
