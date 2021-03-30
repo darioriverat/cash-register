@@ -5,8 +5,8 @@ build:
   nodes:
     coverage:
       services:
-        maria-db:
-          image: docker.io/library/mariadb:10
+        maria-db2:
+          image: docker.io/library/mariadb:10.5.9
           env:
             MYSQL_DATABASE: testdb
             MYSQL_USER: app_user
