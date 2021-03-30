@@ -11,6 +11,7 @@ use Illuminate\Support\Collection;
 /**
  * @property int id
  * @property int machine_id
+ * @property string name
  */
 class Machine extends Model
 {
@@ -26,7 +27,7 @@ class Machine extends Model
         return $this->hasMany(Balance::class);
     }
 
-    public function getCleanBalance(): Collection
+    public function getCash(): Collection
     {
         return $this
             ->balance()
