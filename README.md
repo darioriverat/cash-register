@@ -2,6 +2,8 @@
 
 <p align="center">
 <a href="https://travis-ci.com/darioriverat/cash-register"><img src="https://travis-ci.com/darioriverat/cash-register.svg?branch=main" alt="Build Status"></a>
+<a href="https://scrutinizer-ci.com/g/darioriverat/cash-register"><img src="https://img.shields.io/scrutinizer/g/darioriverat/cash-register.svg" alt="Code Quality"></a>
+<a href="https://scrutinizer-ci.com/g/darioriverat/cash-register/?branch=main"><img src="https://scrutinizer-ci.com/g/darioriverat/cash-register/badges/coverage.png?b=main" alt="Code Coverage"></a>
 </p>
 
 # Cash Register API
@@ -25,7 +27,7 @@ Additional to Laravel 8x requirements, you will need to make sure your server me
 
 ## 1.2 Set up
 
-Set up permission of `storeage` and `bootstrap/cache` directories.
+Set up permission of `storage` and `bootstrap/cache` directories.
 
 ```bash
 chmod -R a+w storage
@@ -42,7 +44,7 @@ Finally, set up `DB_*` and other env vars as you need.
 
 ## 1.3 Step-by-Step Installation
 
-This chapter going to explain to you how to install this application from scratch.
+This chapter is going to explain to you how to install this application from scratch.
 
 ## 1.3.1 Base installation
 
