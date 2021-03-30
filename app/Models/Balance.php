@@ -82,12 +82,4 @@ class Balance extends Model
             Balance::subQuantity($machineId, $entry);
         }
     }
-
-    public static function checkFundsByMachineId(int $machineId): int
-    {
-        return self::select(DB::raw('SUM(amount * quantity) as total'))
-            ->where('machine_id', $machineId)
-            ->first()
-            ->total;
-    }
 }
