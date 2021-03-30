@@ -32,6 +32,13 @@ class Balance extends Model
             ]);
     }
 
+    public static function updateFromCash(array $cash): void
+    {
+        foreach ($cash as $entry) {
+            self::updateQuantity($entry);
+        }
+    }
+
     /**
      * @param int $machineId
      * @param array $entry
@@ -47,6 +54,13 @@ class Balance extends Model
             ]);
     }
 
+    public static function sumCash(int $machineId, array $cash): void
+    {
+        foreach ($cash as $entry) {
+            Balance::sumQuantity($machineId, $entry);
+        }
+    }
+
     /**
      * @param int $machineId
      * @param array $entry
@@ -60,6 +74,13 @@ class Balance extends Model
             ->update([
                 'quantity' => DB::raw('quantity - ' . $entry['quantity'])
             ]);
+    }
+
+    public static function discountChange(int $machineId, array $cash): void
+    {
+        foreach ($cash as $entry) {
+            Balance::subQuantity($machineId, $entry);
+        }
     }
 
     public static function checkFundsByMachineId(int $machineId): int

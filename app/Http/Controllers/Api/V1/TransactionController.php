@@ -25,11 +25,7 @@ class TransactionController extends Controller
         $cash = $request->input('cash');
 
         Transaction::createTransaction($machine->id, TransactionType::BASE, $cash);
-
-        foreach ($cash as $entry) {
-            Balance::updateQuantity($entry);
-        }
-
+        Balance::updateFromCash($cash);
         $machine->open();
 
         return response()->rest(['status' => [
@@ -61,7 +57,7 @@ class TransactionController extends Controller
         $machine = Machine::firstWhere('name', $request->input('machine'));
 
         if ($change) {
-            $balance = $machine->getCleanBalance();
+            $balance = $machine->getCash();
 
             foreach ($balance as $entry) {
                 if ($entry->amount < $change) {
@@ -87,20 +83,14 @@ class TransactionController extends Controller
                 ], 422);
             }
 
-            foreach ($changeCash as $entry) {
-                Balance::subQuantity($machine->id, $entry);
+            if ($changeCash) {
+                Balance::discountChange($machine->id, $changeCash);
+                Transaction::createTransaction($machine->id, TransactionType::OUTCOME, $changeCash);
             }
         }
 
-        foreach ($cash as $entry) {
-            Balance::sumQuantity($machine->id, $entry);
-        }
-
+        Balance::sumCash($machine->id, $cash);
         Transaction::createTransaction($machine->id, TransactionType::INCOME, $cash);
-
-        if ($changeCash) {
-            Transaction::createTransaction($machine->id, TransactionType::OUTCOME, $changeCash);
-        }
 
         return response()->rest([
             'status' => [
@@ -113,7 +103,7 @@ class TransactionController extends Controller
 
     public function balance(Machine $machine): JsonResponse
     {
-        $balance = $machine->getCleanBalance()->toArray();
+        $balance = $machine->getCash()->toArray();
 
         return response()->rest([
             'status' => [
@@ -137,7 +127,7 @@ class TransactionController extends Controller
             ], 400);
         }
 
-        $balance = $machine->getCleanBalance();
+        $balance = $machine->getCash();
         Transaction::createTransaction($machine->id, TransactionType::WITHDRAW, $balance->toArray());
         $machine->withdraw();
 

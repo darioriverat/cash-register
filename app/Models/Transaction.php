@@ -60,7 +60,12 @@ class Transaction extends Model
             ->get();
     }
 
-    public static function sumByType(int $machineId, string $to)
+    /**
+     * @param int $machineId
+     * @param string $to
+     * @return array
+     */
+    public static function sumByType(int $machineId, string $to): array
     {
         $sql = "select total as base, (
                     select sum(total) from transactions as inc
