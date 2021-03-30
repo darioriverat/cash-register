@@ -25,7 +25,7 @@ class TransactionController extends Controller
         $cash = $request->input('cash');
 
         Transaction::createTransaction($machine->id, TransactionType::BASE, $cash);
-        Balance::updateFromCash($cash);
+        Balance::updateFromCash($machine->id, $cash);
         $machine->open();
 
         return response()->rest(['status' => [

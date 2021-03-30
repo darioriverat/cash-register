@@ -20,22 +20,24 @@ class Balance extends Model
     ];
 
     /**
+     * @param int $machineId
      * @param array $entry
      * @return mixed
      */
-    public static function updateQuantity(array $entry)
+    public static function updateQuantity(int $machineId, array $entry)
     {
-        return self::where('exchange_type', $entry['exchange_type'])
+        return self::where('machine_id', $machineId)
+            ->where('exchange_type', $entry['exchange_type'])
             ->where('amount', $entry['amount'])
             ->update([
                 'quantity' => $entry['quantity']
             ]);
     }
 
-    public static function updateFromCash(array $cash): void
+    public static function updateFromCash(int $machineId, array $cash): void
     {
         foreach ($cash as $entry) {
-            self::updateQuantity($entry);
+            self::updateQuantity($machineId, $entry);
         }
     }
 
