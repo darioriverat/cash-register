@@ -4,6 +4,8 @@ build:
       version: "7.4"
   nodes:
     coverage:
+      services:
+        mysql: 8.0
       tests:
         override:
           - command: composer phpunit-xml
