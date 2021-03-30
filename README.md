@@ -8,6 +8,10 @@
 
 # Cash Register API
 
+<a href="https://sonarcloud.io/dashboard?id=darioriverat_cash-register"><img src="https://sonarcloud.io/api/project_badges/measure?project=darioriverat_cash-register&metric=security_rating" alt="Bugs"></a>
+<a href="https://sonarcloud.io/dashboard?id=darioriverat_cash-register"><img src="https://sonarcloud.io/api/project_badges/measure?project=darioriverat_cash-register&metric=bugs" alt="Bugs"></a>
+<a href="https://sonarcloud.io/dashboard?id=darioriverat_cash-register"><img src="https://sonarcloud.io/api/project_badges/measure?project=darioriverat_cash-register&metric=code_smells" alt="Bugs"></a>
+
 You can download this project as follows.
 
 ```bash
