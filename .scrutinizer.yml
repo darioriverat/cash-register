@@ -5,7 +5,7 @@ build:
   nodes:
     coverage:
       services:
-        mysql: 8.0
+        mariadb: 10
       tests:
         override:
           - command: composer phpunit-xml
