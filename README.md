@@ -1,7 +1,7 @@
 <p align="center"><img src="https://blog.pleets.org/img/articles/cashier-machine.png" height="150"></p>
 
 <p align="center">
-<a href="https://travis-ci.com/darioriverat/cash-register"><img src="https://travis-ci.com/darioriverat/cash-register.svg?branch=main" alt="Build Status"></a>
+<a href="https://app.travis-ci.com/darioriverat/cash-register"><img src="https://app.travis-ci.com/darioriverat/cash-register.svg?token=GE9hU33V7eRzgt1gzkro&branch=1.x" alt="Build Status"></a>
 <a href="https://scrutinizer-ci.com/g/darioriverat/cash-register"><img src="https://img.shields.io/scrutinizer/g/darioriverat/cash-register.svg" alt="Code Quality"></a>
 <a href="https://scrutinizer-ci.com/g/darioriverat/cash-register/?branch=main"><img src="https://scrutinizer-ci.com/g/darioriverat/cash-register/badges/coverage.png?b=main" alt="Code Coverage"></a>
 </p>
